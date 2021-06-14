@@ -1,4 +1,7 @@
 /*
+  Author: Eugen Bondarev, eugenbondarev0@gmail.com
+  License: MIT
+
   Usage:
 
   0.0 Make sure the header file <GL/glew.h> is available for this header file.
@@ -126,11 +129,11 @@ class Shader;
 /*
   --------------------- Global variables --------------------- 
 */
-Ptr<VAO> vao;
-Ptr<VBO> vbo;
+inline Ptr<VAO> vao;
+inline Ptr<VBO> vbo;
 
-Vec<Line> lines;
-Ptr<Shader> lineShader;
+inline Vec<Line> lines;
+inline Ptr<Shader> lineShader;
 
 /*
   --------------------- Interface --------------------- 
@@ -294,20 +297,20 @@ public:
     
 		glGenBuffers(1, &handle);
 		glBindBuffer(GL_ARRAY_BUFFER, handle);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3) * 2 + sizeof(Vec4), reinterpret_cast<void *>(0));
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Line), reinterpret_cast<void *>(0));
       glVertexAttribDivisor(0, 1);
 
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3) * 2 + sizeof(Vec4), reinterpret_cast<void *>(3 * sizeof(float)));
+      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Line), reinterpret_cast<void *>(3 * sizeof(float)));
       glVertexAttribDivisor(1, 1);
 
-      glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vec3) * 2 + sizeof(Vec4), reinterpret_cast<void *>(3 * sizeof(float) + 3 * sizeof(float)));
+      glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Line), reinterpret_cast<void *>(3 * sizeof(float) + 3 * sizeof(float)));
       glVertexAttribDivisor(2, 1);
 
       attributes.push_back(0);
       attributes.push_back(1);
       attributes.push_back(2);
 
-      glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3) * 2 + sizeof(Vec4) * 512, nullptr, GL_DYNAMIC_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, 512 * sizeof(Line), nullptr, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     LINOW_LOG_OUT("Dynamic VBO created.");
@@ -337,7 +340,7 @@ public:
     if (bind) {
       Bind();
     }
-    glBufferSubData(GL_ARRAY_BUFFER, pos, sizeof(Vec3) * 2 + sizeof(Vec4) * amount, vec.data());
+    glBufferSubData(GL_ARRAY_BUFFER, pos, amount * sizeof(Line), vec.data());
   }
 
 private:
