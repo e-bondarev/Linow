@@ -5,7 +5,7 @@
 Linow is a header-only **C++** library that uses **modern OpenGL** to render lines (e.g for debugging purposes).
 
 ## Requirements
-C++14 or later.
+C++17 or later.
 
 ## Installation
 
