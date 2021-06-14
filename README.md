@@ -15,7 +15,7 @@ Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2
 
 * DRY
 
-  3D lines are really important in debugging of graphics software. Sometimes I want to see the collision box of a character in project, or render a path that a mesh should follow. I always end up implementing the same concept in all of my projects. This library prevents me and perhaps you from doing that.
+  3D lines are really important in debugging of graphics software. Sometimes I want to see the collision box of a character in a project, or render a path that a mesh should follow. I always end up implementing the same concept in all of my projects. This library prevents me and perhaps you from doing that.
 * Simplicity
 
   1. include the library:
