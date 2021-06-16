@@ -9,7 +9,7 @@ C++17 or later.
 
 ## Installation
 
-Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2855b9000d7">Linow.h</a> and include it in your project.
+Just download <a href="https://github.com/e-bondarev/Linow/blob/main/Linow.h">Linow.h</a> and include it in your project.
 
 ## Motivation
 
