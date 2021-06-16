@@ -26,7 +26,7 @@ Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2
 
   2. Initialize:
   ```c++  
-  Linow::Init(glm::value_ptr(proj));
+  Linow::Init();
   ```
 
   3. In your game loop:
