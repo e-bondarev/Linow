@@ -145,8 +145,7 @@ void Shutdown();
 
 template <typename... Args>
 void AddLine(Args&&... args);
-
-void AddQuad(Vec2 start, Vec2 end, Color color = Color(1.0f, 0.0f, 0.0f, 1.0f));
+void AddQuad(Vec3 start, Vec3 end, Color color = Color(1.0f, 0.0f, 0.0f, 1.0f));
 
 /*
   --------------------- Implementation --------------------- 
@@ -310,7 +309,7 @@ public:
       attributes.push_back(1);
       attributes.push_back(2);
 
-      glBufferData(GL_ARRAY_BUFFER, 512 * sizeof(Line), nullptr, GL_DYNAMIC_DRAW);
+      glBufferData(GL_ARRAY_BUFFER, 0 * sizeof(Line), nullptr, GL_STREAM_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     LINOW_LOG_OUT("Dynamic VBO created.");
@@ -340,7 +339,8 @@ public:
     if (bind) {
       Bind();
     }
-    glBufferSubData(GL_ARRAY_BUFFER, pos, amount * sizeof(Line), vec.data());
+    // glBufferSubData(GL_ARRAY_BUFFER, pos, amount * sizeof(Line), vec.data());
+    glBufferData(GL_ARRAY_BUFFER, amount * sizeof(Line), vec.data(), GL_DYNAMIC_DRAW);
   }
 
 private:
@@ -383,10 +383,8 @@ private:
 	VAO operator=(const VAO&) = delete;
 };
 
-inline void Init(const float* projection) {
+inline void Init() {
   lineShader = CreatePtr<Shader>(vsCode, fsCode, "u_Proj", "u_View");
-  lineShader->Bind();
-    lineShader->SetMat4x4("u_Proj", projection);
 
   vao = CreatePtr<VAO>();
   vao->Bind();

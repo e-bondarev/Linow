@@ -20,7 +20,7 @@ int main() {
   glm::mat4x4 proj = glm::ortho(-800.0f / 2.0f, 800.0f / 2.0f, -600.0f / 2.0f, 600.0f / 2.0f);
   glm::mat4x4 view = glm::mat4x4(1);
 
-  Linow::Init(glm::value_ptr(proj));
+  Linow::Init();
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
