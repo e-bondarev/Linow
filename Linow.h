@@ -168,12 +168,11 @@ const Str vsCode = R"(
   layout (location = 1) in vec3 in_Point1;
   layout (location = 2) in vec4 in_Color;
 
-  uniform mat4 u_Proj;
-  uniform mat4 u_View;
+  uniform mat4 u_ProjView;
   out vec4 color;
   void main() {
     color = in_Color;
-    gl_Position = u_Proj * u_View * vec4(gl_VertexID == 0 ? in_Point0 : in_Point1, 1.0);
+    gl_Position = u_ProjView * vec4(gl_VertexID == 0 ? in_Point0 : in_Point1, 1.0);
   }
 )";
 
@@ -383,8 +382,30 @@ private:
 	VAO operator=(const VAO&) = delete;
 };
 
+inline static void MultiplyMat4x4Mat4x4(float R[4][4], const float A[4][4], const float B[4][4]) {
+  R[0][0] = B[0][0] * A[0][0] + B[0][1] * A[1][0] + B[0][2] * A[2][0] + B[0][3] * A[3][0];
+  R[0][1] = B[0][0] * A[0][1] + B[0][1] * A[1][1] + B[0][2] * A[2][1] + B[0][3] * A[3][1];
+  R[0][2] = B[0][0] * A[0][2] + B[0][1] * A[1][2] + B[0][2] * A[2][2] + B[0][3] * A[3][2];
+  R[0][3] = B[0][0] * A[0][3] + B[0][1] * A[1][3] + B[0][2] * A[2][3] + B[0][3] * A[3][3];
+
+  R[1][0] = B[1][0] * A[0][0] + B[1][1] * A[1][0] + B[1][2] * A[2][0] + B[1][3] * A[3][0];
+  R[1][1] = B[1][0] * A[0][1] + B[1][1] * A[1][1] + B[1][2] * A[2][1] + B[1][3] * A[3][1];
+  R[1][2] = B[1][0] * A[0][2] + B[1][1] * A[1][2] + B[1][2] * A[2][2] + B[1][3] * A[3][2];
+  R[1][3] = B[1][0] * A[0][3] + B[1][1] * A[1][3] + B[1][2] * A[2][3] + B[1][3] * A[3][3];
+
+  R[2][0] = B[2][0] * A[0][0] + B[2][1] * A[1][0] + B[2][2] * A[2][0] + B[2][3] * A[3][0];
+  R[2][1] = B[2][0] * A[0][1] + B[2][1] * A[1][1] + B[2][2] * A[2][1] + B[2][3] * A[3][1];
+  R[2][2] = B[2][0] * A[0][2] + B[2][1] * A[1][2] + B[2][2] * A[2][2] + B[2][3] * A[3][2];
+  R[2][3] = B[2][0] * A[0][3] + B[2][1] * A[1][3] + B[2][2] * A[2][3] + B[2][3] * A[3][3];
+
+  R[3][0] = B[3][0] * A[0][0] + B[3][1] * A[1][0] + B[3][2] * A[2][0] + B[3][3] * A[3][0];
+  R[3][1] = B[3][0] * A[0][1] + B[3][1] * A[1][1] + B[3][2] * A[2][1] + B[3][3] * A[3][1];
+  R[3][2] = B[3][0] * A[0][2] + B[3][1] * A[1][2] + B[3][2] * A[2][2] + B[3][3] * A[3][2];
+  R[3][3] = B[3][0] * A[0][3] + B[3][1] * A[1][3] + B[3][2] * A[2][3] + B[3][3] * A[3][3];
+}
+
 inline void Init() {
-  lineShader = CreatePtr<Shader>(vsCode, fsCode, "u_Proj", "u_View");
+  lineShader = CreatePtr<Shader>(vsCode, fsCode, "u_ProjView");
 
   vao = CreatePtr<VAO>();
   vao->Bind();
@@ -396,9 +417,16 @@ inline void Init() {
 inline void Render(const float* projection, const float* view) {    
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+  float R[4][4];
+  float A[4][4];
+  float B[4][4];
+
+  memcpy(&A[0][0], projection, sizeof(float) * 4 * 4);
+  memcpy(&B[0][0],       view, sizeof(float) * 4 * 4);
+  MultiplyMat4x4Mat4x4(R, A, B);
+
   lineShader->Bind();
-    lineShader->SetMat4x4("u_Proj", projection);
-    lineShader->SetMat4x4("u_View", view);
+    lineShader->SetMat4x4("u_ProjView", &R[0][0]);
 
   vao->Bind();
   vbo->Update(lines, lines.size());
