@@ -9,7 +9,7 @@ C++17 or later.
 
 ## Installation
 
-Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2855b9000d7">Linow.h</a> and include it in your project.
+Just download <a href="https://github.com/e-bondarev/Linow/blob/main/Linow.h">Linow.h</a> and include it in your project.
 
 ## Motivation
 
@@ -26,7 +26,7 @@ Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2
 
   2. Initialize:
   ```c++  
-  Linow::Init(glm::value_ptr(proj));
+  Linow::Init();
   ```
 
   3. In your game loop:
@@ -37,9 +37,9 @@ Just download <a href="https://gist.github.com/e-bondarev/df08c65337d324da44b8f2
   ```
 
 ## Dependencies
-<a href="https://github.com/nigels-com/glew">GLEW</a> - make sure the header <GL/glew.h> is available for the header Linow.h
+<a href="https://github.com/nigels-com/glew">GLEW</a> - make sure the header <GL/glew.h> is available for the header Linow.h.
 
-[Optional] <a href="https://github.com/g-truc/glm">GLM</a> - if you want to use GLM's implementation of vec2, vec3, vec4, which I highly recommend, you just need to ```#define LINOW_USE_GLM ```before including "Linow.h". Once again, make sure the header <glm/glm.hpp> is available
+[Optional] <a href="https://github.com/g-truc/glm">GLM</a> - if you want to use GLM's implementation of vec2, vec3, vec4, which I highly recommend, you just need to ```#define LINOW_USE_GLM ```before including "Linow.h". Once again, make sure the header <glm/glm.hpp> is available.
 
 ## Options
 
